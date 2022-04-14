@@ -20,27 +20,62 @@ long FileSize(FILE *Text)
     return sizeFile;
 }
 
-int print_rules()
+int print_rules(char *filename)
 {
     struct TextInfo Rules;
 
-    ReadInBuF(&Rules, 2);
+    ReadInBuF(&Rules, 2, filename);
     printf(Rules.buf);
 
     return 0;
 }
 
-int ReadInBuF(struct TextInfo *Text, int param)
+int look_at_words(char *filename)
+{
+    struct TextInfo Words;
+    ReadInBuF(&Words, 1, filename);
+
+    return 0;
+}
+
+FILE *open(int param, char *filename)
+{
+    FILE *TextC;
+
+    if(filename != NULL) {
+        TextC = fopen(filename, "r");
+        return TextC;
+
+    } else {
+        switch(param) {
+        case(1):
+            TextC = fopen("words.txt", "r");
+            return TextC;
+        case(2):
+            TextC = fopen("rules.txt", "r");
+            return TextC;
+        }
+
+    }
+    return NULL;
+}
+
+int ReadInBuF(struct TextInfo *Text, int param, char *filename) //!TO DO praram-> enum
 {
     FILE *TextC;
 
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
 
-    if(param == 2) {
+    TextC = open(param, filename);
 
-        TextC = fopen("rules.txt", "r");
-    }
+    /*if(param == 2) {
+        if(filename != NULL) {
+            TextC = fopen(filename, "r");
+        }else {
+            TextC = fopen("rules.txt", "r");
+        }
+    }*/
 
 
     long sizeText = FileSize(TextC);
@@ -56,9 +91,4 @@ int ReadInBuF(struct TextInfo *Text, int param)
 
     return 0;
 
-}
-
-int look_at_words()
-{
-    return 0;
 }

@@ -30,11 +30,11 @@ int main()
             break;
 
         case(2):
-            print_rules();
+            print_rules(NULL);
             break;
 
         case(3):
-            look_at_words();
+            look_at_words(NULL);
             break;
 
         case(4):

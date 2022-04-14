@@ -12,11 +12,11 @@ struct TextInfo {
 
 };
 
-int ReadInBuF(struct TextInfo *Text, int param);
+int ReadInBuF(struct TextInfo *Text, int param, char *filename);
 
-int print_rules();
+int print_rules(char *filename);
 
-int look_at_words();
+int look_at_words(char *filename);
 
 
 
