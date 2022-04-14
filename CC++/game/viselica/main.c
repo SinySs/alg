@@ -18,8 +18,10 @@ int main()
 
     int res, mode;
     struct TextInfo Rules, Words;
+    struct words_arr  Guess;
     Rules.buf = NULL;
     Words.buf = NULL;
+    Guess.words = NULL;
 
     while(1) {
         res = scanf("%d", &mode);
@@ -37,7 +39,7 @@ int main()
             break;
 
         case(3):
-            look_at_words(&Words, NULL);
+            look_at_words(&Guess, &Words, NULL);
             break;
 
         case(4):
