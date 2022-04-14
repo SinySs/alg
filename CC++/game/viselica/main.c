@@ -31,7 +31,7 @@ int main()
         }
         switch(mode) {
         case(1):
-            start_game();
+            start_game(&Guess, &Words, NULL);
             break;
 
         case(2):

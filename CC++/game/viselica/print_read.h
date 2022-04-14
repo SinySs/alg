@@ -25,6 +25,8 @@ int print_rules(struct TextInfo *Rules, char *filename);
 
 int look_at_words(struct words_arr *Guess, struct TextInfo *Words, char *filename);
 
+int buf_to_words(struct TextInfo *Words, struct words_arr *New_arr);
+
 
 
 

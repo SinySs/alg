@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <errno.h>
+#include <assert.h>
 #include <string.h>
 #include <windows.h>
 #include <malloc.h>
@@ -108,6 +109,8 @@ int buf_to_words(struct TextInfo *Words, struct words_arr *New_arr)
 
 int look_at_words(struct words_arr *Guess, struct TextInfo *Words, char *filename)
 {
+    int res, num;
+
     if(Guess->words == NULL) {
         if(Words->buf == NULL) {
             ReadInBuF(Words, 1, filename);
@@ -116,8 +119,19 @@ int look_at_words(struct words_arr *Guess, struct TextInfo *Words, char *filenam
         buf_to_words(Words, Guess);
     }
 
-    printf("%s", Guess->words[1]);
+    printf("Сколько слов Вы хотите увидеть?\n");
 
+    res = scanf("%d", &num);
+    assert(res == 1);
+
+    if(num > Guess->size) {
+        printf("Слишком много хотите)\n");
+    } else {
+        for(int i = 0; i < num; i++) {
+            printf("%s ", Guess->words[i]);
+        }
+
+    }
 
     return 0;
 }
