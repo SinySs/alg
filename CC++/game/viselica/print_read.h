@@ -1,6 +1,12 @@
 #ifndef PRINT_READ_H_INCLUDED
 #define PRINT_READ_H_INCLUDED
 
+struct word_arr {
+
+    char **words;
+
+
+};
 
 struct TextInfo {
 
@@ -14,9 +20,9 @@ struct TextInfo {
 
 int ReadInBuF(struct TextInfo *Text, int param, char *filename);
 
-int print_rules(char *filename);
+int print_rules(struct TextInfo *Rules, char *filename);
 
-int look_at_words(char *filename);
+int look_at_words(struct TextInfo *Words, char *filename);
 
 
 

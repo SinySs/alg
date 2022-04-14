@@ -11,32 +11,13 @@
 long FileSize(FILE *Text)
 {
     fseek(Text, SEEK_SET, SEEK_END);
-
     long sizeFile = 0;
     sizeFile = ftell(Text);
-
     rewind(Text);
 
     return sizeFile;
 }
 
-int print_rules(char *filename)
-{
-    struct TextInfo Rules;
-
-    ReadInBuF(&Rules, 2, filename);
-    printf(Rules.buf);
-
-    return 0;
-}
-
-int look_at_words(char *filename)
-{
-    struct TextInfo Words;
-    ReadInBuF(&Words, 1, filename);
-
-    return 0;
-}
 
 FILE *open(int param, char *filename)
 {
@@ -69,15 +50,6 @@ int ReadInBuF(struct TextInfo *Text, int param, char *filename) //!TO DO praram-
 
     TextC = open(param, filename);
 
-    /*if(param == 2) {
-        if(filename != NULL) {
-            TextC = fopen(filename, "r");
-        }else {
-            TextC = fopen("rules.txt", "r");
-        }
-    }*/
-
-
     long sizeText = FileSize(TextC);
     Text->Text_size = sizeText;
 
@@ -86,9 +58,27 @@ int ReadInBuF(struct TextInfo *Text, int param, char *filename) //!TO DO praram-
     }
 
     fread(Text->buf, 1, sizeText, TextC);
-
     fclose(TextC);
 
     return 0;
+}
 
+
+
+int print_rules(struct TextInfo *Rules, char *filename)
+{
+    if(Rules->buf == NULL) {
+        ReadInBuF(Rules, 2, filename);
+    }
+
+    printf(Rules->buf);
+
+    return 0;
+}
+
+int look_at_words(struct TextInfo *Words, char *filename)
+{
+    ReadInBuF(Words, 1, filename);
+
+    return 0;
 }

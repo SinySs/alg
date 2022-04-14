@@ -17,6 +17,9 @@ int main()
            "4 - Завершить игру\n");
 
     int res, mode;
+    struct TextInfo Rules, Words;
+    Rules.buf = NULL;
+    Words.buf = NULL;
 
     while(1) {
         res = scanf("%d", &mode);
@@ -30,11 +33,11 @@ int main()
             break;
 
         case(2):
-            print_rules(NULL);
+            print_rules(&Rules, NULL);
             break;
 
         case(3):
-            look_at_words(NULL);
+            look_at_words(&Words, NULL);
             break;
 
         case(4):
