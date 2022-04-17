@@ -8,8 +8,11 @@ struct game_word {
     char *hidden_word;
     char *answer;
     int size;
+    int right_letters;
 
     int *named_letters; // 0 if letter wasn't called
+    int incorrect_enter; // if > 10 game over
+    int game_status;
 
 };
 
