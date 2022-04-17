@@ -13,7 +13,7 @@ void game_preparatoin(struct words_arr *Guess, struct TextInfo *Words, struct ga
     new_game->answer = calloc(new_game->size + 1, sizeof(char));
     new_game->incorrect_enter = 0;
     new_game->right_letters = 0;
-    new_game->game_status = 1;
+    new_game->game_status = 0;
 
     for(int i = 0; i < new_game->size; i++) {
         new_game->answer[i] = '?';
@@ -43,6 +43,18 @@ int  replace_answer_letters(const char *str, char letter, int size, char *answer
     return repleced_letters;
 }
 
+void check_win_lose(struct game_word *new_game)
+{
+    if(new_game->right_letters == new_game->size) {
+        new_game->game_status = 100;
+        return;
+    }
+
+    if(new_game->incorrect_enter >= 10) {
+        new_game->game_status = -1;
+    }
+}
+
 int start_game(struct words_arr *Guess, struct TextInfo *Words, char *filename)
 {
     struct game_word new_game;
@@ -63,7 +75,7 @@ int start_game(struct words_arr *Guess, struct TextInfo *Words, char *filename)
 
 
 
-    while(new_game.game_status) {
+    while(!new_game.game_status) {
 
         printf("You will have to guess this word: %s\n", new_game.answer);
         printf("Enter one letter\n");
@@ -72,9 +84,15 @@ int start_game(struct words_arr *Guess, struct TextInfo *Words, char *filename)
 
         if(check_in(new_game.hidden_word, letter, new_game.size) == 1) {
             printf("This letter in word. Good job!\n");
-            replace_answer_letters(new_game.hidden_word, letter, new_game.size, new_game.answer);
+            new_game.right_letters += replace_answer_letters(new_game.hidden_word, letter,
+                                                             new_game.size, new_game.answer);
 
+        } else {
+            printf("Oh... You did a mistake!\n");
+            new_game.incorrect_enter++;
         }
+
+        check_win_lose(&new_game);
 
     }
 
