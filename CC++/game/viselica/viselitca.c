@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <malloc.h>
 #include <string.h>
 #include <assert.h>
@@ -9,7 +10,7 @@
 void game_preparatoin(struct words_arr *Guess, struct TextInfo *Words, struct game_word *new_game)
 {
     new_game->named_letters = calloc(alphabet_len, sizeof(int));
-    new_game->hidden_word = Guess->words[0]; //!TODO: random
+    new_game->hidden_word = Guess->words[rand() % Guess->size];
     new_game->size = strlen(new_game->hidden_word);
     new_game->answer = calloc(new_game->size + 1, sizeof(char));
     new_game->incorrect_enter = 0;
@@ -51,7 +52,7 @@ void check_win_lose(struct game_word *new_game)
         return;
     }
 
-    if(new_game->incorrect_enter >= 10) {
+    if(new_game->incorrect_enter >= MAX_MISTAKE) {
         new_game->game_status = -1;
     }
 }
@@ -70,7 +71,6 @@ void enter_letter(char *letter, struct game_word *new_game)
     printf("Letter %c has already been entered. Enter another letter.\n", *letter);
     enter_letter(letter, new_game);
 
-
 }
 
 int start_game(struct words_arr *Guess, struct TextInfo *Words, char *filename)
@@ -88,9 +88,7 @@ int start_game(struct words_arr *Guess, struct TextInfo *Words, char *filename)
 
     game_preparatoin(Guess, Words, &new_game);
 
-    printf("Мы начинаем игру. Будет сложно(нет)\n");
-
-
+    printf("The game starts!\n");
 
     while(!new_game.game_status) {
 

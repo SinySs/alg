@@ -2,6 +2,7 @@
 #define VISELITCA_H_INCLUDED
 
 #define alphabet_len 32
+#define MAX_MISTAKE 10
 
 struct game_word {
 
