@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
+#include <assert.h>
 
 #include "print_read.h"
 #include "viselitca.h"
@@ -55,11 +56,27 @@ void check_win_lose(struct game_word *new_game)
     }
 }
 
+void enter_letter(char *letter, struct game_word *new_game)
+{
+    int res;
+    res = scanf("\n%c", letter);
+    assert(res == 1);
+
+    if(new_game->named_letters[*letter - 'a'] == 0) {
+        new_game->named_letters[*letter - 'a'] = 1;
+        return;
+    }
+
+    printf("Letter %c has already been entered. Enter another letter.\n", *letter);
+    enter_letter(letter, new_game);
+
+
+}
+
 int start_game(struct words_arr *Guess, struct TextInfo *Words, char *filename)
 {
     struct game_word new_game;
     char letter;
-    int res;
 
     if(Guess->words == NULL) {
         if(Words->buf == NULL) {
@@ -80,10 +97,10 @@ int start_game(struct words_arr *Guess, struct TextInfo *Words, char *filename)
         printf("You will have to guess this word: %s\n", new_game.answer);
         printf("Enter one letter\n");
 
-        res = scanf("\n%c", &letter); //!TODO %s and check str to errors
+        enter_letter(&letter, &new_game);
 
         if(check_in(new_game.hidden_word, letter, new_game.size) == 1) {
-            printf("This letter in word. Good job!\n");
+            printf("This letter is in word. Good job!\n");
             new_game.right_letters += replace_answer_letters(new_game.hidden_word, letter,
                                                              new_game.size, new_game.answer);
 
@@ -94,8 +111,14 @@ int start_game(struct words_arr *Guess, struct TextInfo *Words, char *filename)
 
         check_win_lose(&new_game);
 
-    }
+        if(new_game.game_status == 100) {
+            printf("My congatulations!!! You win!\n");
+        }
+        if(new_game.game_status == -1) {
+            printf("You lose(((\n");
+        }
 
+    }
 
     return 0;
 }
